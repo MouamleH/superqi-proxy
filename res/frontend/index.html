@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperQi Proxy - Payment Gateway</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-credit-card"></i>
+                <h1>SuperQi Proxy</h1>
+            </div>
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Checking...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Navigation Tabs -->
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="auth">
+                    <i class="fas fa-key"></i>
+                    Authentication
+                </button>
+                <button class="tab-btn" data-tab="user">
+                    <i class="fas fa-user"></i>
+                    User Info
+                </button>
+                <button class="tab-btn" data-tab="cards">
+                    <i class="fas fa-credit-card"></i>
+                    Cards
+                </button>
+                <button class="tab-btn" data-tab="payment">
+                    <i class="fas fa-dollar-sign"></i>
+                    Payment
+                </button>
+            </nav>
+
+            <!-- Tab Contents -->
+            <div class="tab-content">
+                <!-- Authentication Tab -->
+                <div class="tab-pane active" id="auth">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-key"></i> Apply Token</h2>
+                            <p>Exchange your authorization code for access tokens</p>
+                        </div>
+                        <form class="form" id="authForm">
+                            <div class="form-group">
+                                <label for="authCode">Authorization Code</label>
+                                <input type="text" id="authCode" name="authCode" placeholder="Enter your authorization code" required>
+                                <small class="form-hint">This code is obtained from the SuperQi OAuth flow</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-exchange-alt"></i>
+                                Apply Token
+                            </button>
+                        </form>
+                        <div class="result-section" id="authResult"></div>
+                    </div>
+                </div>
+
+                <!-- User Info Tab -->
+                <div class="tab-pane" id="user">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-user"></i> User Information</h2>
+                            <p>Get detailed user information using your access token</p>
+                        </div>
+                        <form class="form" id="userForm">
+                            <div class="form-group">
+                                <label for="userAccessToken">Access Token</label>
+                                <input type="text" id="userAccessToken" name="accessToken" placeholder="Enter your access token" required>
+                                <small class="form-hint">Use the access token from the authentication step</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-info-circle"></i>
+                                Get User Info
+                            </button>
+                        </form>
+                        <div class="result-section" id="userResult"></div>
+                    </div>
+                </div>
+
+                <!-- Cards Tab -->
+                <div class="tab-pane" id="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-credit-card"></i> User Cards</h2>
+                            <p>View registered payment cards for the user</p>
+                        </div>
+                        <form class="form" id="cardsForm">
+                            <div class="form-group">
+                                <label for="cardsAccessToken">Access Token</label>
+                                <input type="text" id="cardsAccessToken" name="accessToken" placeholder="Enter your access token" required>
+                                <small class="form-hint">Use the access token from the authentication step</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-list"></i>
+                                Get Card List
+                            </button>
+                        </form>
+                        <div class="result-section" id="cardsResult"></div>
+                    </div>
+                </div>
+
+                <!-- Payment Tab -->
+                <div class="tab-pane" id="payment">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-dollar-sign"></i> Process Payment</h2>
+                            <p>Initiate a payment transaction</p>
+                        </div>
+                        <form class="form" id="paymentForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="amount">Amount (IQD)</label>
+                                    <input type="number" id="amount" name="amount" placeholder="1000" min="1" required>
+                                    <small class="form-hint">Amount in Iraqi Dinar</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="requestId">Request ID</label>
+                                    <input type="text" id="requestId" name="requestId" placeholder="req_123456" required>
+                                    <small class="form-hint">Unique identifier for this payment</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="paymentAccessToken">Access Token</label>
+                                <input type="text" id="paymentAccessToken" name="accessToken" placeholder="Enter your access token" required>
+                                <small class="form-hint">Use the access token from the authentication step</small>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="customerId">Customer ID</label>
+                                    <input type="text" id="customerId" name="customerId" placeholder="customer_123" required>
+                                    <small class="form-hint">Customer identifier</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="orderDesc">Order Description</label>
+                                    <input type="text" id="orderDesc" name="orderDesc" placeholder="Payment for Order #12345" required>
+                                    <small class="form-hint">Description of the payment</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="notifyUrl">Notification URL</label>
+                                <input type="url" id="notifyUrl" name="notifyUrl" placeholder="https://your-domain.com/webhook" required>
+                                <small class="form-hint">URL to receive payment notifications</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-credit-card"></i>
+                                Process Payment
+                            </button>
+                        </form>
+                        <div class="result-section" id="paymentResult"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <p>Processing request...</p>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
