@@ -52,7 +52,7 @@ Create a `.env` file with the following variables:
 
 ```env
 # SuperQI Configuration
-SUPERQI_GATEWAY_URL=https://api.superqi.com
+SUPERQI_GATEWAY_URL=https://gateway-qiuat.banqinonprod.com
 SUPERQI_MERCHANT_PRIVATE_KEY_PATH=/path/to/your/private-key.pem
 SUPERQI_CLIENT_ID=your_client_id
 
